@@ -130,8 +130,42 @@ textarea.field{resize:vertical;min-height:80px}
   <div class="tabs">
     <button class="tab active" onclick="showTab('dash')">Dashboard</button>
     <button class="tab" onclick="showTab('list')">Corridas</button>
+    <button class="tab" onclick="showTab('pend')">Pendientes</button>
+  <div id="tab-pend" class="page">
+    <div class="list-header" style="margin-bottom:1rem">
+      <select id="pend-filter" onchange="renderPend()" style="padding:8px 10px;border:1px solid #e5e5e5;border-radius:8px;font-size:13px;background:#fff;color:#1a1a1a;outline:none">
+        <option value="all">Todas las combinaciones</option>
+        <option value="pending">Solo pendientes</option>
+        <option value="covered">Solo cubiertas</option>
+        <option value="target">Solo objetivos</option>
+      </select>
+      <button class="btn-add" onclick="openPendModal()">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 2v10M2 7h10"/></svg>
+        Nueva combinación objetivo
+      </button>
+    </div>
+    <div id="pend-suggest-banner" style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:12px 16px;margin-bottom:1rem;font-size:13px;color:#1e40af;display:none">
+      <strong>Sugerencias del sistema:</strong> combinaciones detectadas en corridas que todavía no marcaste como objetivo.
+      <button onclick="acceptAllSuggestions()" style="margin-left:12px;padding:4px 10px;background:#1e40af;color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer">Agregar todas</button>
+      <button onclick="dismissSuggestions()" style="margin-left:6px;padding:4px 10px;background:none;border:1px solid #93c5fd;border-radius:6px;font-size:12px;color:#1e40af;cursor:pointer">Ignorar</button>
+    </div>
+    <div id="pend-suggestions" style="margin-bottom:1rem"></div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:12%">Estado</th>
+            <th class="sortable" style="width:18%" onclick="sortPend('emp')">Empleados <i class="sort-icon">↕</i></th>
+            <th style="width:32%">Niveles de responsabilidad</th>
+            <th style="width:22%">Tipo empresa</th>
+            <th style="width:16%"></th>
+          </tr>
+        </thead>
+        <tbody id="pend-body"></tbody>
+      </table>
+      <div id="pend-empty" class="empty" style="display:none">No hay combinaciones para mostrar.</div>
+    </div>
   </div>
-</div>
 
 <div class="container">
   <div id="tab-dash" class="page active">
@@ -256,8 +290,60 @@ textarea.field{resize:vertical;min-height:80px}
   </div>
 </div>
 
-<!-- Modal eliminar -->
-<div class="overlay" id="del-bg" onclick="bgClose(event,'del-bg')">
+<!-- Modal pendiente -->
+<div class="overlay" id="pend-modal-bg" onclick="bgClose(event,'pend-modal-bg')">
+  <div class="modal" style="max-width:500px">
+    <div class="modal-title" id="pend-modal-title">Nueva combinación objetivo</div>
+    <div class="form-grid">
+      <div class="form-col full">
+        <label class="field-label">Empleados</label>
+        <div class="tag-wrap-rel">
+          <div class="tag-input-wrap" id="wrap-pemp" onclick="focusTagInput('pemp')">
+            <input type="text" class="tag-text-input" id="tinput-pemp" placeholder="Seleccioná o escribí..." autocomplete="off"
+              oninput="onTagInput('pemp')" onkeydown="onTagKey(event,'pemp')" onfocus="showSugg('pemp')" onblur="hideSugg('pemp',300)">
+          </div>
+          <div class="tag-suggestions" id="sugg-pemp" style="display:none"></div>
+        </div>
+      </div>
+      <div class="form-col full">
+        <label class="field-label">Niveles de responsabilidad</label>
+        <div class="tag-wrap-rel">
+          <div class="tag-input-wrap" id="wrap-pniveles" onclick="focusTagInput('pniveles')">
+            <input type="text" class="tag-text-input" id="tinput-pniveles" placeholder="Escribí o elegí un nivel..." autocomplete="off"
+              oninput="onTagInput('pniveles')" onkeydown="onTagKey(event,'pniveles')" onfocus="showSugg('pniveles')" onblur="hideSugg('pniveles',300)">
+          </div>
+          <div class="tag-suggestions" id="sugg-pniveles" style="display:none"></div>
+        </div>
+      </div>
+      <div class="form-col full">
+        <label class="field-label">Tipo de empresa</label>
+        <div class="tag-wrap-rel">
+          <div class="tag-input-wrap" id="wrap-ptipo" onclick="focusTagInput('ptipo')">
+            <input type="text" class="tag-text-input" id="tinput-ptipo" placeholder="Seleccioná o escribí..." autocomplete="off"
+              oninput="onTagInput('ptipo')" onkeydown="onTagKey(event,'ptipo')" onfocus="showSugg('ptipo')" onblur="hideSugg('ptipo',300)">
+          </div>
+          <div class="tag-suggestions" id="sugg-ptipo" style="display:none"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('pend-modal-bg')">Cancelar</button>
+      <button class="btn-save" onclick="savePend()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal eliminar pendiente -->
+<div class="overlay" id="pend-del-bg" onclick="bgClose(event,'pend-del-bg')">
+  <div class="modal" style="max-width:360px">
+    <div class="modal-title">Eliminar combinación</div>
+    <div class="del-msg">¿Seguro que querés eliminar esta combinación objetivo?</div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal('pend-del-bg')">Cancelar</button>
+      <button class="btn-del" onclick="confirmPendDel()">Eliminar</button>
+    </div>
+  </div>
+</div>
   <div class="modal" style="max-width:360px">
     <div class="modal-title">Eliminar corrida</div>
     <div class="del-msg">¿Seguro que querés eliminar esta corrida? Esta acción no se puede deshacer.</div>
@@ -321,8 +407,8 @@ function getVocabSingle(field){
 
 /* ---- tag input state ---- */
 var tagState={};
-var SINGLE_FIELDS=["user","emp","funcion","tipo"];
-var MULTI_FIELDS=["niveles"];
+var SINGLE_FIELDS=["user"];
+var MULTI_FIELDS=["niveles","tipo","emp","funcion"];
 
 function initTagState(){
   ["user","emp","funcion","tipo","niveles"].forEach(function(f){tagState[f]=[];});
@@ -331,15 +417,17 @@ initTagState();
 
 function focusTagInput(f){document.getElementById("tinput-"+f).focus();}
 
+/* ---- pendientes vocab ---- */
 function getOptions(f,q){
   var all;
   if(f==="user") all=getVocabSingle("user");
-  else if(f==="emp") all=getVocab("emp");
+  else if(f==="emp"||f==="pemp") all=getVocab("emp");
   else if(f==="funcion") all=getVocabSingle("funcion");
-  else if(f==="tipo") all=getVocabSingle("tipo");
+  else if(f==="tipo"||f==="ptipo") all=getVocabSingle("tipo");
   else all=getVocab("niveles");
   q=q.toLowerCase();
-  return all.filter(function(v){return v.toLowerCase().includes(q)&&tagState[f].indexOf(v)<0;});
+  var sf=f.replace(/^p/,"");
+  return all.filter(function(v){return v.toLowerCase().includes(q)&&tagState[f]&&tagState[f].indexOf(v)<0;});
 }
 
 function renderTags(f){
@@ -424,10 +512,13 @@ function badgeClass(u){return u==="mj"?"badge-mj":u==="carolina"?"badge-ca":"bad
 
 /* ---- tabs ---- */
 function showTab(t){
-  document.querySelectorAll(".tab").forEach(function(b,i){b.classList.toggle("active",["dash","list"][i]===t);});
+  document.querySelectorAll(".tab").forEach(function(b,i){b.classList.toggle("active",["dash","list","pend"][i]===t);});
   document.getElementById("tab-dash").classList.toggle("active",t==="dash");
   document.getElementById("tab-list").classList.toggle("active",t==="list");
-  if(t==="dash")renderDash();else{updateUserFilter();renderList();}
+  document.getElementById("tab-pend").classList.toggle("active",t==="pend");
+  if(t==="dash")renderDash();
+  else if(t==="list"){updateUserFilter();renderList();}
+  else renderPend();
 }
 
 /* ---- dashboard ---- */
@@ -574,9 +665,9 @@ function saveRecord(){
     id:editingId||nextId,
     title:document.getElementById("f-title").value.trim()||"Sin título",
     user:(tagState.user[0]||"").trim(),
-    emp:(tagState.emp[0]||"").trim(),
-    funcion:(tagState.funcion[0]||"").trim(),
-    tipo:(tagState.tipo[0]||"").trim(),
+    emp:tagState.emp.join(", "),
+    funcion:tagState.funcion.join(", "),
+    tipo:tagState.tipo.join(", "),
     niveles:tagState.niveles.slice(),
     fecha:document.getElementById("f-fecha").value,
     resultados:document.getElementById("f-resultados").value,
@@ -605,8 +696,181 @@ document.addEventListener("keydown",function(e){
   if(e.key==="Escape"){closeModal("modal-bg");closeModal("del-bg");}
 });
 
-updateUserFilter();
-renderDash();
+/* ---- pendientes data ---- */
+var PEND_KEY="chl_pend_v2";
+var PEND_DISMISSED_KEY="chl_pend_dismissed";
+var pendTargets=loadPend();
+var pendNextId=pendTargets.reduce(function(m,r){return Math.max(m,r.id);},0)+1;
+var editingPendId=null,deletingPendId=null;
+var pendSortCol="emp",pendSortDir=1;
+var dismissedSuggestions=loadDismissed();
+
+function loadPend(){try{var s=localStorage.getItem(PEND_KEY);if(s)return JSON.parse(s);}catch(e){}return[];}
+function savePendData(){try{localStorage.setItem(PEND_KEY,JSON.stringify(pendTargets));}catch(e){}}
+function loadDismissed(){try{var s=localStorage.getItem(PEND_DISMISSED_KEY);if(s)return JSON.parse(s);}catch(e){}return[];}
+function saveDismissed(){try{localStorage.setItem(PEND_DISMISSED_KEY,JSON.stringify(dismissedSuggestions));}catch(e){}}
+
+function combKey(emp,niveles,tipo){
+  var e=Array.isArray(emp)?emp.slice().sort().join("|"):emp;
+  var n=Array.isArray(niveles)?niveles.slice().sort().join("|"):niveles;
+  var t=Array.isArray(tipo)?tipo.slice().sort().join("|"):tipo;
+  return [e,n,t].join("||");
+}
+
+function isCovered(target){
+  return data.some(function(d){
+    var de=Array.isArray(d.emp)?d.emp:[d.emp];
+    var dn=Array.isArray(d.niveles)?d.niveles:[d.niveles];
+    var dt=d.tipo?[d.tipo]:[];
+    var te=Array.isArray(target.emp)?target.emp:[target.emp];
+    var tn=Array.isArray(target.niveles)?target.niveles:[target.niveles];
+    var tt=Array.isArray(target.tipo)?target.tipo:[target.tipo];
+    return combKey(de,dn,dt)===combKey(te,tn,tt);
+  });
+}
+
+function getSuggestions(){
+  var existing=pendTargets.map(function(t){return combKey(t.emp,t.niveles,t.tipo);});
+  var suggs=[];
+  data.forEach(function(d){
+    var emp=Array.isArray(d.emp)?d.emp:[d.emp];
+    var niv=Array.isArray(d.niveles)?d.niveles:[d.niveles];
+    var tipo=d.tipo?[d.tipo]:[];
+    var k=combKey(emp,niv,tipo);
+    if(existing.indexOf(k)<0&&dismissedSuggestions.indexOf(k)<0&&!suggs.find(function(s){return combKey(s.emp,s.niveles,s.tipo)===k;})){
+      suggs.push({emp:emp,niveles:niv,tipo:tipo,key:k});
+    }
+  });
+  return suggs;
+}
+
+function sortPend(col){
+  if(pendSortCol===col)pendSortDir*=-1;else{pendSortCol=col;pendSortDir=1;}
+  renderPend();
+}
+
+function renderPend(){
+  var filter=document.getElementById("pend-filter").value;
+  var suggs=getSuggestions();
+  var banner=document.getElementById("pend-suggest-banner");
+  var suggDiv=document.getElementById("pend-suggestions");
+
+  if(suggs.length){
+    banner.style.display="block";
+    suggDiv.innerHTML=suggs.map(function(s){
+      return '<div style="display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid #bfdbfe;border-radius:8px;padding:6px 12px;margin:0 6px 6px 0;font-size:12px">'+
+        '<span style="color:#1e40af">'+escHtml(s.emp.join(", "))+'</span>'+
+        '<span style="color:#aaa">·</span>'+
+        '<span style="color:#555">'+escHtml(s.niveles.join(", "))+'</span>'+
+        (s.tipo.length?'<span style="color:#aaa">·</span><span style="color:#888">'+escHtml(s.tipo.join(", "))+'</span>':'')+
+        '<button onclick="acceptSuggestion(\''+escAttr(s.key)+'\')" style="background:#1e40af;color:#fff;border:none;border-radius:5px;padding:2px 8px;font-size:11px;cursor:pointer">+ Agregar</button>'+
+        '<button onclick="ignoreSuggestion(\''+escAttr(s.key)+'\')" style="background:none;border:none;color:#93c5fd;font-size:14px;cursor:pointer;line-height:1">×</button>'+
+      '</div>';
+    }).join("");
+  } else {
+    banner.style.display="none";
+    suggDiv.innerHTML="";
+  }
+
+  var rows=pendTargets.filter(function(t){
+    if(filter==="pending") return !isCovered(t);
+    if(filter==="covered") return isCovered(t);
+    if(filter==="target") return true;
+    return true;
+  });
+
+  rows=rows.slice().sort(function(a,b){
+    if(pendSortCol==="emp"){return pendSortDir*(empRank(Array.isArray(a.emp)?a.emp[0]:a.emp)-empRank(Array.isArray(b.emp)?b.emp[0]:b.emp));}
+    var av=String(a[pendSortCol]||"").toLowerCase();
+    var bv=String(b[pendSortCol]||"").toLowerCase();
+    return pendSortDir*(av<bv?-1:av>bv?1:0);
+  });
+
+  var tbody=document.getElementById("pend-body");
+  var empty=document.getElementById("pend-empty");
+  if(!rows.length){tbody.innerHTML="";empty.style.display="block";return;}
+  empty.style.display="none";
+
+  tbody.innerHTML=rows.map(function(t){
+    var covered=isCovered(t);
+    var emp=Array.isArray(t.emp)?t.emp:[t.emp];
+    var niv=Array.isArray(t.niveles)?t.niveles:[t.niveles];
+    var tipo=Array.isArray(t.tipo)?t.tipo:[t.tipo];
+    var statusBadge=covered
+      ?'<span style="background:#dcfce7;color:#166534;font-size:11px;padding:2px 9px;border-radius:20px">Cubierta</span>'
+      :'<span style="background:#fef9c3;color:#854d0e;font-size:11px;padding:2px 9px;border-radius:20px">Pendiente</span>';
+    return '<tr>'+
+      '<td>'+statusBadge+'</td>'+
+      '<td style="font-size:12px">'+escHtml(emp.join(", "))+'</td>'+
+      '<td class="levels-cell">'+escHtml(niv.join(" · "))+'</td>'+
+      '<td style="font-size:12px;color:#888">'+escHtml(tipo.filter(Boolean).join(", ")||"-")+'</td>'+
+      '<td><div class="actions">'+
+        '<button class="icon-btn" onclick="openPendModal('+t.id+')" title="Editar">'+
+          '<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9.5 2.5l2 2L4 12H2v-2L9.5 2.5z"/></svg>'+
+        '</button>'+
+        '<button class="icon-btn danger" onclick="openPendDel('+t.id+')" title="Eliminar">'+
+          '<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h10M5 4V2.5h4V4M6 6.5v3M8 6.5v3M3 4l.8 7.5h6.4L11 4"/></svg>'+
+        '</button>'+
+      '</div></td>'+
+    '</tr>';
+  }).join("");
+}
+
+function openPendModal(id){
+  editingPendId=id||null;
+  document.getElementById("pend-modal-title").textContent=id?"Editar combinación":"Nueva combinación objetivo";
+  var t=id?pendTargets.find(function(r){return r.id===id;}):null;
+  tagState.pemp=t?(Array.isArray(t.emp)?t.emp.slice():[t.emp]):[];
+  tagState.pniveles=t?(Array.isArray(t.niveles)?t.niveles.slice():[t.niveles]):[];
+  tagState.ptipo=t?(Array.isArray(t.tipo)?t.tipo.slice():(t.tipo?[t.tipo]:[])):[];
+  ["pemp","pniveles","ptipo"].forEach(function(f){renderTags(f);document.getElementById("tinput-"+f).value="";});
+  document.getElementById("pend-modal-bg").classList.add("open");
+}
+
+function savePend(){
+  var rec={
+    id:editingPendId||pendNextId,
+    emp:tagState.pemp.slice(),
+    niveles:tagState.pniveles.slice(),
+    tipo:tagState.ptipo.slice()
+  };
+  if(editingPendId){
+    var idx=pendTargets.findIndex(function(r){return r.id===editingPendId;});
+    pendTargets[idx]=rec;
+  } else {pendTargets.push(rec);pendNextId++;}
+  savePendData();
+  closeModal("pend-modal-bg");
+  renderPend();
+}
+
+function openPendDel(id){deletingPendId=id;document.getElementById("pend-del-bg").classList.add("open");}
+function confirmPendDel(){
+  pendTargets=pendTargets.filter(function(r){return r.id!==deletingPendId;});
+  savePendData();closeModal("pend-del-bg");renderPend();
+}
+
+function acceptSuggestion(key){
+  var sugg=getSuggestions().find(function(s){return s.key===key;});
+  if(!sugg)return;
+  pendTargets.push({id:pendNextId++,emp:sugg.emp,niveles:sugg.niveles,tipo:sugg.tipo});
+  savePendData();renderPend();
+}
+
+function ignoreSuggestion(key){
+  dismissedSuggestions.push(key);saveDismissed();renderPend();
+}
+
+function acceptAllSuggestions(){
+  getSuggestions().forEach(function(s){
+    pendTargets.push({id:pendNextId++,emp:s.emp,niveles:s.niveles,tipo:s.tipo});
+  });
+  savePendData();renderPend();
+}
+
+function dismissSuggestions(){
+  getSuggestions().forEach(function(s){dismissedSuggestions.push(s.key);});
+  saveDismissed();renderPend();
+}
 </script>
 </body>
 </html>
