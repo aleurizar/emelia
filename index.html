@@ -7,50 +7,47 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:system-ui,-apple-system,sans-serif;font-size:14px;color:#1a1a1a;background:#f4f4f2;min-height:100vh}
-
 .topbar{background:#fff;border-bottom:1px solid #e5e5e5;padding:0 1.5rem;display:flex;align-items:center;gap:1.5rem}
-.topbar-brand{font-size:15px;font-weight:500;padding:14px 0;color:#1a1a1a}
-.tabs{display:flex;gap:0;height:100%}
-.tab{padding:14px 18px;cursor:pointer;font-size:14px;color:#888;border:none;border-bottom:2px solid transparent;background:none;cursor:pointer}
-.tab.active{color:#1a1a1a;border-bottom:2px solid #1a1a1a;font-weight:500}
+.topbar-brand{font-size:15px;font-weight:500;padding:14px 0;color:#1a1a1a;white-space:nowrap}
+.tabs{display:flex}
+.tab{padding:14px 18px;cursor:pointer;font-size:14px;color:#888;border:none;border-bottom:2px solid transparent;background:none;margin-bottom:-1px}
+.tab.active{color:#1a1a1a;border-bottom-color:#1a1a1a;font-weight:500}
 .tab:hover:not(.active){color:#1a1a1a}
-
 .container{max-width:1100px;margin:0 auto;padding:1.5rem}
+.page{display:none}.page.active{display:block}
 
-.page{display:none}
-.page.active{display:block}
-
+/* metrics */
 .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.5rem}
 .metric{background:#fff;border:1px solid #e5e5e5;border-radius:10px;padding:1rem}
 .metric-label{font-size:12px;color:#888;margin-bottom:4px}
-.metric-value{font-size:24px;font-weight:500;color:#1a1a1a}
+.metric-value{font-size:24px;font-weight:500}
 .metric-sub{font-size:11px;color:#aaa;margin-top:2px}
 
+/* charts */
 .charts-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.5rem}
 .chart-card{background:#fff;border:1px solid #e5e5e5;border-radius:10px;padding:1.2rem}
 .chart-title{font-size:11px;font-weight:500;color:#888;margin-bottom:14px;text-transform:uppercase;letter-spacing:.5px}
-
 .bar-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.bar-label{font-size:12px;color:#666;width:72px;text-align:right;flex-shrink:0}
+.bar-label{font-size:11px;color:#666;width:80px;text-align:right;flex-shrink:0}
 .bar-track{flex:1;background:#f0f0f0;border-radius:4px;height:14px;overflow:hidden}
-.bar-fill{height:100%;border-radius:4px;transition:width .4s}
+.bar-fill{height:100%;border-radius:4px}
 .bar-count{font-size:11px;color:#aaa;width:20px;text-align:right}
 
+/* recent */
 .recent-card{background:#fff;border:1px solid #e5e5e5;border-radius:10px;padding:1.2rem}
 .recent-title{font-size:11px;font-weight:500;color:#888;margin-bottom:14px;text-transform:uppercase;letter-spacing:.5px}
 .recent-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid #f0f0f0}
 .recent-row:last-child{border-bottom:none}
 .avatar{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0}
-.av-mj{background:#dbeafe;color:#1d4ed8}
-.av-ca{background:#ede9fe;color:#5b21b6}
+.av-mj{background:#dbeafe;color:#1d4ed8}.av-ca{background:#ede9fe;color:#5b21b6}.av-other{background:#fef3c7;color:#92400e}
 .recent-info{flex:1;min-width:0}
-.recent-name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#1a1a1a}
+.recent-name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .recent-meta{font-size:11px;color:#aaa}
-.badge{font-size:10px;padding:2px 9px;border-radius:20px;flex-shrink:0}
-.badge-mj{background:#dbeafe;color:#1e40af}
-.badge-ca{background:#ede9fe;color:#4c1d95}
+.badge{font-size:10px;padding:2px 9px;border-radius:20px;flex-shrink:0;white-space:nowrap}
+.badge-mj{background:#dbeafe;color:#1e40af}.badge-ca{background:#ede9fe;color:#4c1d95}.badge-other{background:#fef3c7;color:#92400e}
 .date-badge{font-size:11px;color:#888;white-space:nowrap}
 
+/* list */
 .list-header{display:flex;align-items:center;gap:10px;margin-bottom:1rem;flex-wrap:wrap}
 .list-header input[type=text]{flex:1;min-width:180px;padding:8px 12px;border:1px solid #e5e5e5;border-radius:8px;font-size:13px;background:#fff;color:#1a1a1a;outline:none}
 .list-header input:focus{border-color:#aaa}
@@ -58,40 +55,57 @@ body{font-family:system-ui,-apple-system,sans-serif;font-size:14px;color:#1a1a1a
 .btn-add{padding:8px 14px;background:#1a1a1a;color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap}
 .btn-add:hover{background:#333}
 
+/* table */
 .tbl-wrap{background:#fff;border:1px solid #e5e5e5;border-radius:10px;overflow:hidden}
 table{width:100%;border-collapse:collapse;font-size:13px}
-th{font-size:11px;font-weight:500;color:#888;text-align:left;padding:10px 12px;border-bottom:1px solid #e5e5e5;white-space:nowrap;background:#fafafa}
+th{font-size:11px;font-weight:500;color:#888;text-align:left;padding:10px 12px;border-bottom:1px solid #e5e5e5;background:#fafafa;white-space:nowrap;user-select:none}
+th.sortable{cursor:pointer}
+th.sortable:hover{color:#1a1a1a}
+.sort-icon{display:inline-block;margin-left:4px;opacity:.4;font-style:normal}
+th.sort-asc .sort-icon,th.sort-desc .sort-icon{opacity:1;color:#1a1a1a}
 td{padding:10px 12px;border-bottom:1px solid #f5f5f5;vertical-align:top;color:#1a1a1a}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:#fafafa}
-.levels-cell{max-width:240px;font-size:11px;color:#666;line-height:1.6}
+.levels-cell{max-width:200px;font-size:11px;color:#666;line-height:1.6}
 .icon-btn{background:none;border:none;cursor:pointer;padding:4px 6px;border-radius:6px;color:#888;display:inline-flex;align-items:center;justify-content:center}
 .icon-btn:hover{background:#f0f0f0;color:#1a1a1a}
 .icon-btn.danger:hover{background:#fef2f2;color:#dc2626}
-.actions{display:flex;gap:2px}
+.actions{display:flex;gap:2px;white-space:nowrap}
 .empty{text-align:center;padding:3rem;color:#aaa;font-size:13px}
 
-/* modal overlay */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:100;align-items:center;justify-content:center;padding:1rem}
+/* overlay/modal */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:100;align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto}
 .overlay.open{display:flex}
-.modal{background:#fff;border-radius:14px;padding:1.5rem;width:100%;max-width:560px;max-height:90vh;overflow-y:auto}
-.modal-title{font-size:16px;font-weight:500;margin-bottom:1.2rem;color:#1a1a1a}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.modal{background:#fff;border-radius:14px;padding:1.5rem;width:100%;max-width:580px;margin:auto}
+.modal-title{font-size:16px;font-weight:500;margin-bottom:1.2rem}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .form-col{display:flex;flex-direction:column;gap:5px}
 .form-col.full{grid-column:1/-1}
 label.field-label{font-size:11px;color:#888;font-weight:500}
 input.field,select.field,textarea.field{padding:8px 10px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;background:#fff;color:#1a1a1a;outline:none;font-family:inherit;width:100%}
 input.field:focus,select.field:focus,textarea.field:focus{border-color:#aaa}
-textarea.field{resize:vertical;min-height:90px}
+textarea.field{resize:vertical;min-height:80px}
 .modal-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:1.2rem}
 .btn-cancel{padding:8px 14px;border:1px solid #e0e0e0;border-radius:8px;background:#fff;cursor:pointer;font-size:13px;color:#666}
 .btn-cancel:hover{background:#f5f5f5}
 .btn-save{padding:8px 16px;background:#1a1a1a;color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer}
 .btn-save:hover{background:#333}
-
-.del-msg{font-size:13px;color:#666;margin-bottom:1.2rem;line-height:1.6}
 .btn-del{padding:8px 16px;background:#dc2626;color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer}
 .btn-del:hover{background:#b91c1c}
+.del-msg{font-size:13px;color:#666;margin-bottom:1.2rem;line-height:1.6}
+
+/* tag input */
+.tag-input-wrap{border:1px solid #e0e0e0;border-radius:8px;padding:6px 8px;background:#fff;min-height:38px;display:flex;flex-wrap:wrap;gap:5px;cursor:text}
+.tag-input-wrap:focus-within{border-color:#aaa}
+.tag{display:inline-flex;align-items:center;gap:4px;background:#f0f0f0;border-radius:20px;padding:2px 8px 2px 10px;font-size:12px;color:#333}
+.tag-remove{background:none;border:none;cursor:pointer;color:#999;padding:0;font-size:14px;line-height:1;display:flex;align-items:center}
+.tag-remove:hover{color:#333}
+.tag-text-input{border:none;outline:none;font-size:13px;color:#1a1a1a;background:transparent;min-width:80px;flex:1;padding:2px 0;font-family:inherit}
+.tag-suggestions{position:absolute;z-index:200;background:#fff;border:1px solid #e0e0e0;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.1);max-height:180px;overflow-y:auto;min-width:200px}
+.tag-sugg-item{padding:8px 12px;font-size:13px;cursor:pointer;color:#1a1a1a}
+.tag-sugg-item:hover,.tag-sugg-item.active{background:#f5f5f5}
+.tag-sugg-new{color:#2563eb;font-style:italic}
+.tag-wrap-rel{position:relative}
 
 @media(max-width:640px){
   .metrics{grid-template-columns:1fr 1fr}
@@ -113,18 +127,11 @@ textarea.field{resize:vertical;min-height:90px}
 </div>
 
 <div class="container">
-
   <div id="tab-dash" class="page active">
     <div class="metrics" id="metrics"></div>
     <div class="charts-row">
-      <div class="chart-card">
-        <div class="chart-title">Por usuario</div>
-        <div id="chart-user"></div>
-      </div>
-      <div class="chart-card">
-        <div class="chart-title">Por tamaño de empresa</div>
-        <div id="chart-size"></div>
-      </div>
+      <div class="chart-card"><div class="chart-title">Por usuario</div><div id="chart-user"></div></div>
+      <div class="chart-card"><div class="chart-title">Por tamaño de empresa</div><div id="chart-size"></div></div>
     </div>
     <div class="recent-card">
       <div class="recent-title">Últimas corridas</div>
@@ -137,8 +144,6 @@ textarea.field{resize:vertical;min-height:90px}
       <input type="text" id="search" placeholder="Buscar por título o usuario..." oninput="renderList()">
       <select id="filter-user" onchange="renderList()">
         <option value="">Todos los usuarios</option>
-        <option value="mj">mj</option>
-        <option value="carolina">carolina</option>
       </select>
       <button class="btn-add" onclick="openModal()">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 2v10M2 7h10"/></svg>
@@ -149,12 +154,12 @@ textarea.field{resize:vertical;min-height:90px}
       <table>
         <thead>
           <tr>
-            <th>Título</th>
-            <th>Usuario</th>
-            <th>Empleados</th>
+            <th class="sortable" data-col="title" onclick="sortBy('title')">Título <i class="sort-icon">↕</i></th>
+            <th class="sortable" data-col="user" onclick="sortBy('user')">Usuario <i class="sort-icon">↕</i></th>
+            <th class="sortable" data-col="emp" onclick="sortBy('emp')">Empleados <i class="sort-icon">↕</i></th>
             <th>Niveles de responsabilidad</th>
-            <th>Tipo empresa</th>
-            <th>Fecha</th>
+            <th class="sortable" data-col="tipo" onclick="sortBy('tipo')">Tipo empresa <i class="sort-icon">↕</i></th>
+            <th class="sortable" data-col="fecha" onclick="sortBy('fecha')">Fecha <i class="sort-icon">↕</i></th>
             <th></th>
           </tr>
         </thead>
@@ -163,7 +168,6 @@ textarea.field{resize:vertical;min-height:90px}
       <div id="empty-state" class="empty" style="display:none">No se encontraron corridas.</div>
     </div>
   </div>
-
 </div>
 
 <!-- Modal agregar/editar -->
@@ -177,35 +181,53 @@ textarea.field{resize:vertical;min-height:90px}
       </div>
       <div class="form-col">
         <label class="field-label">Usuario</label>
-        <select class="field" id="f-user">
-          <option value="mj">mj</option>
-          <option value="carolina">carolina</option>
-        </select>
+        <div class="tag-wrap-rel">
+          <div class="tag-input-wrap" id="wrap-user" onclick="focusTagInput('user')">
+            <input type="text" class="tag-text-input" id="tinput-user" placeholder="Seleccioná o escribí..." autocomplete="off"
+              oninput="onTagInput('user')" onkeydown="onTagKey(event,'user')" onfocus="showSugg('user')" onblur="hideSugg('user',300)">
+          </div>
+          <div class="tag-suggestions" id="sugg-user" style="display:none"></div>
+        </div>
       </div>
       <div class="form-col">
         <label class="field-label">Empleados</label>
-        <select class="field" id="f-emp">
-          <option>1-10</option>
-          <option>11-50</option>
-          <option>51-200</option>
-          <option>201-500</option>
-          <option>501-1.000</option>
-          <option>1.001-5.000</option>
-          <option>5.001-10.000</option>
-          <option>10.000+</option>
-        </select>
+        <div class="tag-wrap-rel">
+          <div class="tag-input-wrap" id="wrap-emp" onclick="focusTagInput('emp')">
+            <input type="text" class="tag-text-input" id="tinput-emp" placeholder="Seleccioná o escribí..." autocomplete="off"
+              oninput="onTagInput('emp')" onkeydown="onTagKey(event,'emp')" onfocus="showSugg('emp')" onblur="hideSugg('emp',300)">
+          </div>
+          <div class="tag-suggestions" id="sugg-emp" style="display:none"></div>
+        </div>
       </div>
       <div class="form-col">
         <label class="field-label">Función</label>
-        <input type="text" class="field" id="f-funcion" value="Tecnología de la información">
+        <div class="tag-wrap-rel">
+          <div class="tag-input-wrap" id="wrap-funcion" onclick="focusTagInput('funcion')">
+            <input type="text" class="tag-text-input" id="tinput-funcion" placeholder="Seleccioná o escribí..." autocomplete="off"
+              oninput="onTagInput('funcion')" onkeydown="onTagKey(event,'funcion')" onfocus="showSugg('funcion')" onblur="hideSugg('funcion',300)">
+          </div>
+          <div class="tag-suggestions" id="sugg-funcion" style="display:none"></div>
+        </div>
       </div>
       <div class="form-col">
         <label class="field-label">Tipo de empresa</label>
-        <input type="text" class="field" id="f-tipo" placeholder="De financiación privada...">
+        <div class="tag-wrap-rel">
+          <div class="tag-input-wrap" id="wrap-tipo" onclick="focusTagInput('tipo')">
+            <input type="text" class="tag-text-input" id="tinput-tipo" placeholder="Seleccioná o escribí..." autocomplete="off"
+              oninput="onTagInput('tipo')" onkeydown="onTagKey(event,'tipo')" onfocus="showSugg('tipo')" onblur="hideSugg('tipo',300)">
+          </div>
+          <div class="tag-suggestions" id="sugg-tipo" style="display:none"></div>
+        </div>
       </div>
       <div class="form-col full">
-        <label class="field-label">Niveles de responsabilidad (uno por línea)</label>
-        <textarea class="field" id="f-niveles" placeholder="Director&#10;Gerente con experiencia&#10;Sénior"></textarea>
+        <label class="field-label">Niveles de responsabilidad</label>
+        <div class="tag-wrap-rel">
+          <div class="tag-input-wrap" id="wrap-niveles" onclick="focusTagInput('niveles')">
+            <input type="text" class="tag-text-input" id="tinput-niveles" placeholder="Escribí o elegí un nivel..." autocomplete="off"
+              oninput="onTagInput('niveles')" onkeydown="onTagKey(event,'niveles')" onfocus="showSugg('niveles')" onblur="hideSugg('niveles',300)">
+          </div>
+          <div class="tag-suggestions" id="sugg-niveles" style="display:none"></div>
+        </div>
       </div>
       <div class="form-col">
         <label class="field-label">Fecha de extracción</label>
@@ -227,7 +249,7 @@ textarea.field{resize:vertical;min-height:90px}
   </div>
 </div>
 
-<!-- Modal confirmar eliminación -->
+<!-- Modal eliminar -->
 <div class="overlay" id="del-bg" onclick="bgClose(event,'del-bg')">
   <div class="modal" style="max-width:360px">
     <div class="modal-title">Eliminar corrida</div>
@@ -240,107 +262,263 @@ textarea.field{resize:vertical;min-height:90px}
 </div>
 
 <script>
-var STORAGE_KEY = "chl_tracker_data";
+var STORAGE_KEY="chl_tracker_v2";
 
-var DEFAULT_DATA = [
-  {id:1,title:"CHL - Tecnologia - 270426",user:"mj",emp:"501-1.000",funcion:"Tecnología de la información",niveles:"Gerente sin experiencia\nGerente con experiencia\nDirector\nPropietario/socio\nDirector ejecutivo\nVicepresidente\nCargo estratégico\nSénior",tipo:"",fecha:"2026-04-27",resultados:"",notas:""},
-  {id:2,title:"CHL - Tecnologia II - 280426",user:"carolina",emp:"201-500",funcion:"Tecnología de la información",niveles:"Gerente con experiencia\nDirector\nPropietario/socio\nDirector ejecutivo\nVicepresidente\nCargo estratégico\nSénior",tipo:"",fecha:"2026-04-28",resultados:"",notas:""},
-  {id:3,title:"CHL - Tecnologia III - 280426",user:"mj",emp:"10.000+",funcion:"Tecnología de la información",niveles:"Propietario/socio\nDirector ejecutivo\nVicepresidente\nCargo estratégico\nGerente con experiencia\nDirector",tipo:"",fecha:"2026-04-28",resultados:"",notas:""},
-  {id:4,title:"CHL - Tecnologia IV - 280426",user:"carolina",emp:"5.001-10.000",funcion:"Tecnología de la información",niveles:"Director\nGerente con experiencia\nDirector ejecutivo\nPropietario/socio\nVicepresidente\nCargo estratégico\nGerente sin experiencia\nSénior",tipo:"",fecha:"2026-04-28",resultados:"",notas:""},
-  {id:5,title:"CHL - Tecnologia V - 290426",user:"mj",emp:"10.000+",funcion:"Tecnología de la información",niveles:"Sénior",tipo:"",fecha:"2026-04-29",resultados:"",notas:""},
-  {id:6,title:"CHL - Tecnologia VI - 290426",user:"carolina",emp:"201-500",funcion:"Tecnología de la información",niveles:"Gerente sin experiencia",tipo:"",fecha:"2026-04-29",resultados:"",notas:""},
-  {id:7,title:"CHL - Tecnologia VII - 030526",user:"carolina",emp:"1.001-5.000",funcion:"Tecnología de la información",niveles:"Sénior",tipo:"",fecha:"2026-05-03",resultados:"",notas:""},
-  {id:8,title:"CHL - Tecnologia VIII - 030526",user:"carolina",emp:"1.001-5.000",funcion:"Tecnología de la información",niveles:"Director",tipo:"",fecha:"2026-05-03",resultados:"",notas:""},
-  {id:9,title:"CHL - Tecnologia IX - 030526",user:"carolina",emp:"51-200",funcion:"Tecnología de la información",niveles:"Sénior\nPropietario/socio",tipo:"",fecha:"2026-05-03",resultados:"",notas:""},
-  {id:10,title:"CHL - Tecnologia X - 030526",user:"carolina",emp:"51-200",funcion:"Tecnología de la información",niveles:"Gerente con experiencia\nCargo estratégico\nDirector",tipo:"",fecha:"2026-05-03",resultados:"",notas:""},
-  {id:11,title:"CHL - Tecnologia XI - 040526",user:"carolina",emp:"51-200",funcion:"Tecnología de la información",niveles:"Gerente sin experiencia",tipo:"De financiación privada",fecha:"2026-05-04",resultados:"",notas:""},
-  {id:12,title:"CHL - Tecnologia XII - 040526",user:"carolina",emp:"51-200",funcion:"Tecnología de la información",niveles:"Gerente sin experiencia",tipo:"???",fecha:"2026-05-04",resultados:"",notas:""},
-  {id:13,title:"CHL - Tecnologia XIII - 040526",user:"mj",emp:"10.000+",funcion:"Tecnología de la información",niveles:"Gerente sin experiencia",tipo:"",fecha:"2026-05-04",resultados:"",notas:""}
+var DEFAULT_DATA=[
+  {id:1,title:"CHL - Tecnologia - 270426",user:"mj",emp:"501-1.000",funcion:"Tecnología de la información",niveles:["Gerente sin experiencia","Gerente con experiencia","Director","Propietario/socio","Director ejecutivo","Vicepresidente","Cargo estratégico","Sénior"],tipo:"",fecha:"2026-04-27",resultados:"",notas:""},
+  {id:2,title:"CHL - Tecnologia II - 280426",user:"carolina",emp:"201-500",funcion:"Tecnología de la información",niveles:["Gerente con experiencia","Director","Propietario/socio","Director ejecutivo","Vicepresidente","Cargo estratégico","Sénior"],tipo:"",fecha:"2026-04-28",resultados:"",notas:""},
+  {id:3,title:"CHL - Tecnologia III - 280426",user:"mj",emp:"10.000+",funcion:"Tecnología de la información",niveles:["Propietario/socio","Director ejecutivo","Vicepresidente","Cargo estratégico","Gerente con experiencia","Director"],tipo:"",fecha:"2026-04-28",resultados:"",notas:""},
+  {id:4,title:"CHL - Tecnologia IV - 280426",user:"carolina",emp:"5.001-10.000",funcion:"Tecnología de la información",niveles:["Director","Gerente con experiencia","Director ejecutivo","Propietario/socio","Vicepresidente","Cargo estratégico","Gerente sin experiencia","Sénior"],tipo:"",fecha:"2026-04-28",resultados:"",notas:""},
+  {id:5,title:"CHL - Tecnologia V - 290426",user:"mj",emp:"10.000+",funcion:"Tecnología de la información",niveles:["Sénior"],tipo:"",fecha:"2026-04-29",resultados:"",notas:""},
+  {id:6,title:"CHL - Tecnologia VI - 290426",user:"carolina",emp:"201-500",funcion:"Tecnología de la información",niveles:["Gerente sin experiencia"],tipo:"",fecha:"2026-04-29",resultados:"",notas:""},
+  {id:7,title:"CHL - Tecnologia VII - 030526",user:"carolina",emp:"1.001-5.000",funcion:"Tecnología de la información",niveles:["Sénior"],tipo:"",fecha:"2026-05-03",resultados:"",notas:""},
+  {id:8,title:"CHL - Tecnologia VIII - 030526",user:"carolina",emp:"1.001-5.000",funcion:"Tecnología de la información",niveles:["Director"],tipo:"",fecha:"2026-05-03",resultados:"",notas:""},
+  {id:9,title:"CHL - Tecnologia IX - 030526",user:"carolina",emp:"51-200",funcion:"Tecnología de la información",niveles:["Sénior","Propietario/socio"],tipo:"",fecha:"2026-05-03",resultados:"",notas:""},
+  {id:10,title:"CHL - Tecnologia X - 030526",user:"carolina",emp:"51-200",funcion:"Tecnología de la información",niveles:["Gerente con experiencia","Cargo estratégico","Director"],tipo:"",fecha:"2026-05-03",resultados:"",notas:""},
+  {id:11,title:"CHL - Tecnologia XI - 040526",user:"carolina",emp:"51-200",funcion:"Tecnología de la información",niveles:["Gerente sin experiencia"],tipo:"De financiación privada",fecha:"2026-05-04",resultados:"",notas:""},
+  {id:12,title:"CHL - Tecnologia XII - 040526",user:"carolina",emp:"51-200",funcion:"Tecnología de la información",niveles:["Gerente sin experiencia"],tipo:"Empresa propia Empresa pública Institución educativa Asociación Organización sin ánimo de lucro",fecha:"2026-05-04",resultados:"",notas:""},
+  {id:13,title:"CHL - Tecnologia XIII - 040526",user:"mj",emp:"10.000+",funcion:"Tecnología de la información",niveles:["Gerente sin experiencia"],tipo:"",fecha:"2026-05-04",resultados:"",notas:""}
 ];
 
 function loadData(){
-  try{
-    var s=localStorage.getItem(STORAGE_KEY);
-    if(s) return JSON.parse(s);
-  }catch(e){}
-  return DEFAULT_DATA.map(function(d){return Object.assign({},d)});
+  try{var s=localStorage.getItem(STORAGE_KEY);if(s)return JSON.parse(s);}catch(e){}
+  return DEFAULT_DATA.map(function(d){return JSON.parse(JSON.stringify(d));});
 }
-
-function saveData(){
-  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(data));}catch(e){}
-}
+function saveData(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(data));}catch(e){}}
 
 var data=loadData();
-var nextId=data.reduce(function(m,r){return Math.max(m,r.id)},0)+1;
+var nextId=data.reduce(function(m,r){return Math.max(m,r.id);},0)+1;
 var editingId=null,deletingId=null;
+var sortCol="fecha",sortDir=-1;
 
-function fmt(d){if(!d)return"-";var p=d.split("-");return p[2]+"/"+p[1]+"/"+p[0]}
-function avClass(u){return u==="mj"?"av-mj":"av-ca"}
-function avInit(u){return u==="mj"?"MJ":"CA"}
-function badgeClass(u){return u==="mj"?"badge-mj":"badge-ca"}
+/* ---- vocabulary (dynamic, built from data) ---- */
+var VOCAB_EMP=["1-10","11-50","51-200","201-500","501-1.000","1.001-5.000","5.001-10.000","10.000+"];
+var VOCAB_NIVELES=["Gerente sin experiencia","Gerente con experiencia","Director","Propietario/socio","Director ejecutivo","Vicepresidente","Cargo estratégico","Sénior"];
 
-function showTab(t){
-  document.querySelectorAll(".tab").forEach(function(b,i){b.classList.toggle("active",["dash","list"][i]===t)});
-  document.getElementById("tab-dash").classList.toggle("active",t==="dash");
-  document.getElementById("tab-list").classList.toggle("active",t==="list");
-  if(t==="dash") renderDash(); else renderList();
+function getVocab(field){
+  var base=[];
+  if(field==="emp") base=VOCAB_EMP.slice();
+  if(field==="niveles") base=VOCAB_NIVELES.slice();
+  var extra=[];
+  data.forEach(function(d){
+    var vals=Array.isArray(d[field])?d[field]:[d[field]];
+    vals.forEach(function(v){if(v&&base.indexOf(v)<0&&extra.indexOf(v)<0)extra.push(v);});
+  });
+  return base.concat(extra);
+}
+function getVocabSingle(field){
+  var seen=[];
+  data.forEach(function(d){var v=d[field];if(v&&seen.indexOf(v)<0)seen.push(v);});
+  return seen;
 }
 
+/* ---- tag input state ---- */
+var tagState={};
+var SINGLE_FIELDS=["user","emp","funcion","tipo"];
+var MULTI_FIELDS=["niveles"];
+
+function initTagState(){
+  ["user","emp","funcion","tipo","niveles"].forEach(function(f){tagState[f]=[];});
+}
+initTagState();
+
+function focusTagInput(f){document.getElementById("tinput-"+f).focus();}
+
+function getOptions(f,q){
+  var all;
+  if(f==="user") all=getVocabSingle("user");
+  else if(f==="emp") all=getVocab("emp");
+  else if(f==="funcion") all=getVocabSingle("funcion");
+  else if(f==="tipo") all=getVocabSingle("tipo");
+  else all=getVocab("niveles");
+  q=q.toLowerCase();
+  return all.filter(function(v){return v.toLowerCase().includes(q)&&tagState[f].indexOf(v)<0;});
+}
+
+function renderTags(f){
+  var wrap=document.getElementById("wrap-"+f);
+  var inp=document.getElementById("tinput-"+f);
+  var existing=wrap.querySelectorAll(".tag");
+  existing.forEach(function(el){el.remove();});
+  tagState[f].forEach(function(v){
+    var span=document.createElement("span");
+    span.className="tag";
+    span.innerHTML=escHtml(v)+'<button type="button" class="tag-remove" onclick="removeTag(\''+f+'\',\''+escAttr(v)+'\')">×</button>';
+    wrap.insertBefore(span,inp);
+  });
+}
+
+function removeTag(f,v){
+  tagState[f]=tagState[f].filter(function(x){return x!==v;});
+  renderTags(f);
+}
+
+function addTag(f,v){
+  v=v.trim();if(!v)return;
+  if(SINGLE_FIELDS.indexOf(f)>=0) tagState[f]=[v];
+  else if(tagState[f].indexOf(v)<0) tagState[f].push(v);
+  renderTags(f);
+  document.getElementById("tinput-"+f).value="";
+  hideSuggNow(f);
+}
+
+var suggIndex={};
+function onTagInput(f){showSugg(f);}
+
+function showSugg(f){
+  var inp=document.getElementById("tinput-"+f);
+  var q=inp.value;
+  var opts=getOptions(f,q);
+  var el=document.getElementById("sugg-"+f);
+  if(!opts.length&&!q.trim()){el.style.display="none";return;}
+  var html="";
+  opts.forEach(function(o,i){
+    html+='<div class="tag-sugg-item" onmousedown="addTag(\''+f+'\',\''+escAttr(o)+'\')" data-idx="'+i+'">'+escHtml(o)+'</div>';
+  });
+  if(q.trim()&&opts.indexOf(q.trim())<0){
+    html+='<div class="tag-sugg-item tag-sugg-new" onmousedown="addTag(\''+f+'\',\''+escAttr(q.trim())+'\')">+ Agregar "'+escHtml(q.trim())+'"</div>';
+  }
+  el.innerHTML=html;
+  el.style.display=html?"block":"none";
+  suggIndex[f]=-1;
+}
+
+function hideSugg(f,delay){setTimeout(function(){hideSuggNow(f);},delay||0);}
+function hideSuggNow(f){var el=document.getElementById("sugg-"+f);if(el)el.style.display="none";}
+
+function onTagKey(e,f){
+  var el=document.getElementById("sugg-"+f);
+  var items=el?el.querySelectorAll(".tag-sugg-item"):[];
+  if(e.key==="Enter"){
+    e.preventDefault();
+    if(suggIndex[f]>=0&&items[suggIndex[f]]){items[suggIndex[f]].dispatchEvent(new Event("mousedown"));}
+    else{var v=document.getElementById("tinput-"+f).value;if(v.trim())addTag(f,v);}
+  } else if(e.key==="ArrowDown"){
+    e.preventDefault();
+    suggIndex[f]=Math.min((suggIndex[f]||0)+1,items.length-1);
+    items.forEach(function(it,i){it.classList.toggle("active",i===suggIndex[f]);});
+  } else if(e.key==="ArrowUp"){
+    e.preventDefault();
+    suggIndex[f]=Math.max((suggIndex[f]||0)-1,0);
+    items.forEach(function(it,i){it.classList.toggle("active",i===suggIndex[f]);});
+  } else if(e.key==="Backspace"&&!document.getElementById("tinput-"+f).value&&tagState[f].length){
+    tagState[f].pop();renderTags(f);
+  }
+}
+
+/* ---- helpers ---- */
+function fmt(d){if(!d)return"-";var p=d.split("-");return p[2]+"/"+p[1]+"/"+p[0];}
+function escHtml(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function escAttr(s){return String(s).replace(/'/g,"&#39;").replace(/"/g,"&quot;");}
+
+function avClass(u){return u==="mj"?"av-mj":u==="carolina"?"av-ca":"av-other";}
+function avInit(u){return u?u.substring(0,2).toUpperCase():"?";}
+function badgeClass(u){return u==="mj"?"badge-mj":u==="carolina"?"badge-ca":"badge-other";}
+
+/* ---- tabs ---- */
+function showTab(t){
+  document.querySelectorAll(".tab").forEach(function(b,i){b.classList.toggle("active",["dash","list"][i]===t);});
+  document.getElementById("tab-dash").classList.toggle("active",t==="dash");
+  document.getElementById("tab-list").classList.toggle("active",t==="list");
+  if(t==="dash")renderDash();else{updateUserFilter();renderList();}
+}
+
+/* ---- dashboard ---- */
 function card(label,val,sub){
   return '<div class="metric"><div class="metric-label">'+label+'</div><div class="metric-value">'+val+'</div>'+(sub?'<div class="metric-sub">'+sub+'</div>':'')+'</div>';
 }
-
 function renderDash(){
-  var mj=data.filter(function(d){return d.user==="mj"}).length;
-  var ca=data.filter(function(d){return d.user==="carolina"}).length;
+  var users=getVocabSingle("user");
+  var userCounts={};
+  users.forEach(function(u){userCounts[u]=data.filter(function(d){return d.user===u;}).length;});
   var month=new Date().toISOString().slice(0,7);
-  var thisMonth=data.filter(function(d){return d.fecha&&d.fecha.startsWith(month)}).length;
-  document.getElementById("metrics").innerHTML=
-    card("Total corridas",data.length,"")+card("mj",mj,"")+card("carolina",ca,"")+card("Este mes",thisMonth,new Date().toLocaleString("es-AR",{month:"long",year:"numeric"}));
+  var thisMonth=data.filter(function(d){return d.fecha&&d.fecha.startsWith(month);}).length;
+  var metHtml=card("Total corridas",data.length,"");
+  users.forEach(function(u){metHtml+=card(u,userCounts[u],"");});
+  metHtml+=card("Este mes",thisMonth,new Date().toLocaleString("es-AR",{month:"long",year:"numeric"}));
+  document.getElementById("metrics").innerHTML=metHtml;
 
-  var userMap={mj:0,carolina:0};
-  data.forEach(function(d){userMap[d.user]=(userMap[d.user]||0)+1});
-  var maxU=Math.max.apply(null,Object.values(userMap));
-  var colors={mj:"#378ADD",carolina:"#7F77DD"};
-  document.getElementById("chart-user").innerHTML=Object.keys(userMap).map(function(u){
-    var pct=maxU?Math.round(userMap[u]/maxU*100):0;
-    return '<div class="bar-row"><span class="bar-label">'+u+'</span><div class="bar-track"><div class="bar-fill" style="width:'+pct+'%;background:'+colors[u]+'"></div></div><span class="bar-count">'+userMap[u]+'</span></div>';
+  var maxU=Math.max.apply(null,users.map(function(u){return userCounts[u];}));
+  var colors=["#378ADD","#7F77DD","#1D9E75","#D85A30","#BA7517"];
+  document.getElementById("chart-user").innerHTML=users.map(function(u,i){
+    var pct=maxU?Math.round(userCounts[u]/maxU*100):0;
+    return '<div class="bar-row"><span class="bar-label">'+escHtml(u)+'</span><div class="bar-track"><div class="bar-fill" style="width:'+pct+'%;background:'+colors[i%colors.length]+'"></div></div><span class="bar-count">'+userCounts[u]+'</span></div>';
   }).join("");
 
   var empOrder=["1-10","11-50","51-200","201-500","501-1.000","1.001-5.000","5.001-10.000","10.000+"];
   var empMap={};
-  data.forEach(function(d){empMap[d.emp]=(empMap[d.emp]||0)+1});
-  var empKeys=empOrder.filter(function(k){return empMap[k]});
-  var maxE=Math.max.apply(null,empKeys.map(function(k){return empMap[k]}));
+  data.forEach(function(d){empMap[d.emp]=(empMap[d.emp]||0)+1;});
+  var empKeys=empOrder.filter(function(k){return empMap[k];});
+  var maxE=Math.max.apply(null,empKeys.map(function(k){return empMap[k];}));
   document.getElementById("chart-size").innerHTML=empKeys.map(function(k){
     var pct=maxE?Math.round(empMap[k]/maxE*100):0;
-    return '<div class="bar-row"><span class="bar-label" style="font-size:10px;width:80px">'+k+'</span><div class="bar-track"><div class="bar-fill" style="width:'+pct+'%;background:#378ADD"></div></div><span class="bar-count">'+empMap[k]+'</span></div>';
+    return '<div class="bar-row"><span class="bar-label" style="font-size:10px">'+k+'</span><div class="bar-track"><div class="bar-fill" style="width:'+pct+'%;background:#378ADD"></div></div><span class="bar-count">'+empMap[k]+'</span></div>';
   }).join("");
 
-  var recent=data.slice().sort(function(a,b){return b.fecha.localeCompare(a.fecha)}).slice(0,5);
+  var recent=data.slice().sort(function(a,b){return b.fecha.localeCompare(a.fecha);}).slice(0,5);
   document.getElementById("recent-list").innerHTML=recent.map(function(d){
-    var lvls=d.niveles?d.niveles.split("\n").filter(Boolean):[];
-    return '<div class="recent-row"><div class="avatar '+avClass(d.user)+'">'+avInit(d.user)+'</div><div class="recent-info"><div class="recent-name">'+escHtml(d.title)+'</div><div class="recent-meta">'+d.emp+(lvls.length?" &middot; "+lvls.length+" nivel"+(lvls.length>1?"es":""):"")+'</div></div><span class="badge '+badgeClass(d.user)+'">'+d.user+'</span><span class="date-badge">'+fmt(d.fecha)+'</span></div>';
+    var lvls=Array.isArray(d.niveles)?d.niveles:[];
+    return '<div class="recent-row"><div class="avatar '+avClass(d.user)+'">'+avInit(d.user)+'</div><div class="recent-info"><div class="recent-name">'+escHtml(d.title)+'</div><div class="recent-meta">'+escHtml(d.emp)+(lvls.length?" · "+lvls.length+" nivel"+(lvls.length>1?"es":""):"")+'</div></div><span class="badge '+badgeClass(d.user)+'">'+escHtml(d.user)+'</span><span class="date-badge">'+fmt(d.fecha)+'</span></div>';
   }).join("");
 }
 
+/* ---- sorting ---- */
+var EMP_ORDER=["1-10","11-50","51-200","201-500","501-1.000","1.001-5.000","5.001-10.000","10.000+"];
+function empRank(v){var i=EMP_ORDER.indexOf(v);return i<0?99:i;}
+
+function sortBy(col){
+  if(sortCol===col)sortDir*=-1;else{sortCol=col;sortDir=1;}
+  renderList();
+}
+function updateSortHeaders(){
+  document.querySelectorAll("th.sortable").forEach(function(th){
+    var c=th.getAttribute("data-col");
+    th.classList.toggle("sort-asc",c===sortCol&&sortDir===1);
+    th.classList.toggle("sort-desc",c===sortCol&&sortDir===-1);
+    var ic=th.querySelector(".sort-icon");
+    if(ic)ic.textContent=c===sortCol?(sortDir===1?"↑":"↓"):"↕";
+  });
+}
+
+function sortedData(rows){
+  return rows.slice().sort(function(a,b){
+    var av,bv;
+    if(sortCol==="emp"){av=empRank(a.emp);bv=empRank(b.emp);return sortDir*(av-bv);}
+    av=String(a[sortCol]||"").toLowerCase();
+    bv=String(b[sortCol]||"").toLowerCase();
+    return sortDir*(av<bv?-1:av>bv?1:0);
+  });
+}
+
+/* ---- list ---- */
+function updateUserFilter(){
+  var sel=document.getElementById("filter-user");
+  var cur=sel.value;
+  var users=getVocabSingle("user");
+  sel.innerHTML='<option value="">Todos los usuarios</option>'+users.map(function(u){return'<option value="'+escAttr(u)+'">'+escHtml(u)+'</option>';}).join("");
+  sel.value=cur;
+}
+
 function renderList(){
+  updateSortHeaders();
   var q=(document.getElementById("search").value||"").toLowerCase();
   var fu=document.getElementById("filter-user").value;
   var rows=data.filter(function(d){
     return(!q||(d.title.toLowerCase().includes(q)||d.user.toLowerCase().includes(q)))&&(!fu||d.user===fu);
   });
+  rows=sortedData(rows);
   var tbody=document.getElementById("tbl-body");
   var empty=document.getElementById("empty-state");
-  if(!rows.length){tbody.innerHTML="";empty.style.display="block";return}
+  if(!rows.length){tbody.innerHTML="";empty.style.display="block";return;}
   empty.style.display="none";
   tbody.innerHTML=rows.map(function(d){
-    var lvls=d.niveles?d.niveles.split("\n").filter(Boolean):[];
+    var lvls=Array.isArray(d.niveles)?d.niveles:[];
+    var lvlStr=lvls.length?lvls.join(" · "):"-";
     return '<tr>'+
       '<td style="font-weight:500;min-width:180px">'+escHtml(d.title)+'</td>'+
-      '<td><span class="badge '+badgeClass(d.user)+'">'+d.user+'</span></td>'+
-      '<td style="white-space:nowrap">'+d.emp+'</td>'+
-      '<td class="levels-cell">'+escHtml(lvls.join(" · ") || "-")+'</td>'+
+      '<td><span class="badge '+badgeClass(d.user)+'">'+escHtml(d.user)+'</span></td>'+
+      '<td style="white-space:nowrap">'+escHtml(d.emp)+'</td>'+
+      '<td class="levels-cell">'+escHtml(lvlStr)+'</td>'+
       '<td style="white-space:nowrap;color:#888">'+escHtml(d.tipo||"-")+'</td>'+
       '<td style="white-space:nowrap">'+fmt(d.fecha)+'</td>'+
       '<td><div class="actions">'+
@@ -355,67 +533,72 @@ function renderList(){
   }).join("");
 }
 
-function escHtml(s){
-  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-}
-
+/* ---- modal ---- */
 function openModal(id){
   editingId=id||null;
   document.getElementById("modal-title").textContent=id?"Editar corrida":"Nueva corrida";
-  var d=id?data.find(function(r){return r.id===id}):null;
-  document.getElementById("f-title").value=d?d.title:"";
-  document.getElementById("f-user").value=d?d.user:"mj";
-  document.getElementById("f-emp").value=d?d.emp:"51-200";
-  document.getElementById("f-funcion").value=d?d.funcion:"Tecnología de la información";
-  document.getElementById("f-tipo").value=d?d.tipo:"";
-  document.getElementById("f-niveles").value=d?d.niveles:"";
+  var d=id?data.find(function(r){return r.id===id;}):null;
+  initTagState();
+
+  if(d){
+    tagState.user=[d.user];
+    tagState.emp=[d.emp];
+    tagState.funcion=[d.funcion||""];
+    tagState.tipo=d.tipo?[d.tipo]:[];
+    tagState.niveles=Array.isArray(d.niveles)?d.niveles.slice():[];
+  }
+  ["user","emp","funcion","tipo","niveles"].forEach(function(f){
+    renderTags(f);
+    document.getElementById("tinput-"+f).value="";
+  });
+
   document.getElementById("f-fecha").value=d?d.fecha:"";
   document.getElementById("f-resultados").value=d?d.resultados:"";
   document.getElementById("f-notas").value=d?d.notas:"";
   document.getElementById("modal-bg").classList.add("open");
+  setTimeout(function(){document.getElementById("f-title").value=d?d.title:"";},0);
 }
 
-function closeModal(id){document.getElementById(id).classList.remove("open")}
-
-function bgClose(e,id){if(e.target===document.getElementById(id))closeModal(id)}
+function closeModal(id){document.getElementById(id).classList.remove("open");}
+function bgClose(e,id){if(e.target===document.getElementById(id))closeModal(id);}
 
 function saveRecord(){
   var rec={
     id:editingId||nextId,
     title:document.getElementById("f-title").value.trim()||"Sin título",
-    user:document.getElementById("f-user").value,
-    emp:document.getElementById("f-emp").value,
-    funcion:document.getElementById("f-funcion").value.trim(),
-    tipo:document.getElementById("f-tipo").value.trim(),
-    niveles:document.getElementById("f-niveles").value.trim(),
+    user:(tagState.user[0]||"").trim(),
+    emp:(tagState.emp[0]||"").trim(),
+    funcion:(tagState.funcion[0]||"").trim(),
+    tipo:(tagState.tipo[0]||"").trim(),
+    niveles:tagState.niveles.slice(),
     fecha:document.getElementById("f-fecha").value,
     resultados:document.getElementById("f-resultados").value,
     notas:document.getElementById("f-notas").value.trim()
   };
   if(editingId){
-    var idx=data.findIndex(function(r){return r.id===editingId});
+    var idx=data.findIndex(function(r){return r.id===editingId;});
     data[idx]=rec;
-  }else{
+  } else {
     data.push(rec);nextId++;
   }
   saveData();
   closeModal("modal-bg");
-  renderList();renderDash();
+  updateUserFilter();
+  renderList();
+  renderDash();
 }
 
-function openDel(id){deletingId=id;document.getElementById("del-bg").classList.add("open")}
-
+function openDel(id){deletingId=id;document.getElementById("del-bg").classList.add("open");}
 function confirmDel(){
-  data=data.filter(function(r){return r.id!==deletingId});
-  saveData();
-  closeModal("del-bg");
-  renderList();renderDash();
+  data=data.filter(function(r){return r.id!==deletingId;});
+  saveData();closeModal("del-bg");updateUserFilter();renderList();renderDash();
 }
 
 document.addEventListener("keydown",function(e){
-  if(e.key==="Escape"){closeModal("modal-bg");closeModal("del-bg")}
+  if(e.key==="Escape"){closeModal("modal-bg");closeModal("del-bg");}
 });
 
+updateUserFilter();
 renderDash();
 </script>
 </body>
